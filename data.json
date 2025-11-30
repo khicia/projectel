@@ -16,5 +16,22 @@
         {"picture": "images/col1.jpg"},
         {"picture": "images/col5.jpg"},
         {"picture": "images/col6.jpg"}
-    ]
+    ],
+  "October 8, 2023 - Raver's Birthday": [
+    { "video": "videos/vid1.MOV" },
+    { "video": "videos/vid2.MOV" },
+    { "video": "videos/vid3.MOV" },
+    { "video": "videos/vid4.MOV" },
+    { "video": "videos/vid5.MOV" },
+    { "video": "videos/vid7.MOV" },
+    { "video": "videos/vid8.MOV" },
+    { "video": "videos/vid9.MOV" },
+    { "video": "videos/vid10.MOV" }
+  ],
+
+  "Junior High Videos": [
+    { "video": "videos/jh1.mp4" },
+    { "video": "videos/jh2.mp4" },
+    { "video": "videos/jh3.mp4" }
+  ]
 }

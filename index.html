@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title> PV Wall </title>
+    <title>PV Wall</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -56,16 +56,21 @@
             color: #6b5f5f;
         }
 
-        /* GALLERY */
-        .gallery-img {
+        /* UNIFORM MEDIA (IMAGES + VIDEOS SAME SIZE) */
+        .gallery-item {
+            padding: 5px;
+        }
+
+        .gallery-media {
             width: 100%;
             height: 300px;
             object-fit: cover;
             border-radius: 12px;
             transition: 0.3s ease;
+            cursor: pointer;
         }
 
-        .gallery-img:hover {
+        .gallery-media:hover {
             transform: scale(1.05);
             box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.25);
         }
@@ -77,16 +82,6 @@
             margin-top: 50px;
             color: #725f5f;
             font-size: 14px;
-        }
-
-        p5 {
-            color: #ca2e2e;
-            font-size: 14px;
-        }
-
-        li {
-            margin-left: auto;
-            color: gold;
         }
     </style>
 </head>
@@ -116,41 +111,35 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <h1>PULANG VENDETTA</h1>
-        <p5><small>Aki - Richard - Marvin - Clarence - Charles - PJ - Kyle - Albe - JM - Alessia - Monica - Jovic - Taz
-                - Raver - Guian - Janine - Callie</small></p4>
-
+        <p><small>Aki • Richard • Marvin • Clarence • Charles • PJ • Kyle • Albe • JM • Alessia • Monica • Jovic • Taz • Raver • Guian • Janine • Callie</small></p>
     </section>
 
     <section class="banner">
         <img src="images/banner.jpg" alt="Banner Image" style="width: 100%; height: auto;">
     </section>
 
-    <!-- HERO SECTION -->
-     <section class="hero">
-        <p style="text-align: center; font-size: 18px; color: #6b5f5f; margin-bottom: 40px;">
-            <h3>Welcome to the Pulang Vendetta Gallery!</h3> Explore our curated collection of images showcasing the essence of
-            our lives from highschool upto present. Dive into the moments that define us and celebrate the spirit of our not so big family.
+    <!-- INTRO SECTION -->
+    <section class="hero">
+        <h3>Welcome to the Pulang Vendetta Gallery!</h3>
+        <p>
+            Explore our curated collection of images showcasing the essence of our lives from high school up to the present.
+            Dive into the moments that define us and celebrate the spirit of our not-so-big family.
         </p>
-     </section>
+    </section>
 
     <!-- GALLERY -->
     <section id="gallery" class="container pb-5">
         <div class="row g-4" id="content"></div>
     </section>
 
-    <div class="container text-center">
-  <div class="row">
-    <div class="col">
-      Junior High School
+    <!-- LABELS -->
+    <div class="container text-center mb-5">
+        <div class="row">
+            <div class="col">Junior High School</div>
+            <div class="col">Senior High</div>
+            <div class="col">College</div>
+        </div>
     </div>
-    <div class="col">
-      Senior High
-    </div>
-    <div class="col">
-      College
-    </div>
-  </div>
-</div>
 
     <!-- DATA LOADER -->
     <script src="data.js"></script>
@@ -161,22 +150,66 @@
             fetch("data.json")
                 .then(response => response.json())
                 .then(gallery => {
-                    for (const category in gallery) {
-                        content.innerHTML += `<div class="col-12">
-                    <h3 style="color: var(--burgundy); margin-top: 40px; text-transform: capitalize;">
-                        ${category.replace(/([A-Z])/g, " $1")}
-                    </h3></div>`;
 
-                        gallery[category].forEach(item => {
-                            content.innerHTML += `<div class="col-6 col-md-4 col-lg-3">
-                        <img src="${item.picture}" class="gallery-img" alt="${category} image" />
-                    </div>`;
+                    for (const category in gallery) {
+
+                        content.innerHTML += `
+                            <div class="col-12">
+                                <h3 style="color: var(--burgundy); margin-top: 40px; text-transform: capitalize;">
+                                    ${category.replace(/([A-Z])/g, " $1")}
+                                </h3>
+                            </div>
+                        `;
+
+                        gallery[category].forEach((item, index) => {
+
+                            // IMAGE
+                            if (item.picture) {
+                                content.innerHTML += `
+                                    <div class="col-6 col-md-4 col-lg-3 gallery-item">
+                                        <img src="${item.picture}" class="gallery-media" />
+                                    </div>
+                                `;
+                            }
+
+                            // VIDEO
+                            if (item.video) {
+                                const videoId = `${category}-video-${index}`;
+                                content.innerHTML += `
+                                    <div class="col-6 col-md-4 col-lg-3 gallery-item">
+                                        <video id="${videoId}"
+                                               src="${item.video}"
+                                               class="gallery-media"
+                                               autoplay muted playsinline></video>
+                                    </div>
+                                `;
+                            }
                         });
+
+                        // VIDEO CLICK-TO-NEXT
+                        setTimeout(() => {
+                            const videos = gallery[category]
+                                .filter(i => i.video)
+                                .map(i => i.video);
+
+                            let current = 0;
+
+                            const videoElements = document.querySelectorAll(`video[id^="${category}-video"]`);
+
+                            videoElements.forEach(video => {
+                                video.addEventListener("click", () => {
+                                    current = (current + 1) % videos.length;
+                                    video.src = videos[current];
+                                    video.play();
+                                });
+                            });
+
+                        }, 100);
                     }
-                })
-                .catch(err => console.error("Error loading gallery:", err));
+                });
         });
     </script>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
