@@ -1,5 +1,5 @@
 {
-        "The people in my life since '17": [
+        "Featured Memories": [
         {"picture": "images/col1.jpg" },
         {"picture": "images/col2.jpg" },
         {"picture": "images/col3.jpg" },
@@ -11,5 +11,10 @@
         {"picture": "images/col9.jpg" },
         {"picture": "images/col10.jpg"},
         {"picture": "images/col16.jpg" }
+    ],
+        "Junior High School": [
+        {"picture": "images/col1.jpg"},
+        {"picture": "images/col5.jpg"},
+        {"picture": "images/col6.jpg"}
     ]
 }
